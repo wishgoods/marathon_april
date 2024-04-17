@@ -1,0 +1,30 @@
+.download_img_title
+{
+    color:white;
+    font-family: 'Aduma';
+    font-size: 25px;
+    text-align: right;
+    padding-right: 80px;
+    padding-top: 10px;
+}
+.download_img_cont
+{
+    height:50%;
+    position:relative;
+}
+
+.download_img_subtitle{
+    color:white;
+    font-family: 'Aduma';
+    font-size: 20px;
+    text-align: right;
+    margin-right: 30px;
+}
+.download_img_new{
+    position: absolute;
+    right:20px;
+    top:5px;
+}
+.padding_top_title{
+    padding-right: 30px;
+}
