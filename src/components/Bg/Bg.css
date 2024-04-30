@@ -88,6 +88,7 @@
     background-position: 20px 10px;
     text-align: right;
     padding-right: 20px;
+    cursor:pointer;
 }
 
 .takanon_text{
@@ -98,6 +99,7 @@
     direction: rtl;
     top:20px;
     right:10px;
+    
 }
 
 .footer_cont{
@@ -135,4 +137,11 @@
 }
 .selected_tab{
     border-bottom: 3px solid #9c27b0;
+}
+.layout{
+    background-color: #000000ad;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
 }
