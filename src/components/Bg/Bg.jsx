@@ -3,16 +3,17 @@ import close_x from '../../assets/close.png'
 import logo from '../../assets/logo.png'
 import banner from '../../assets/banner.png'
 import DownloadImg from '../download_img/Download_img'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import NoBg from '../no_bg/No_bg'
 import DownloadPopup from '../download_popup/Download_popup'
 import Eula from '../eula/Eula'
+import axios from 'axios'
 
 const Bg=()=>{
     const  [selected_tab,setselected_tab] = useState(true);
     const  [show_download_popup,setdownload_popup] = useState(false);
     const  [show_eula_popup,setshow_eula_popup] = useState(false);
-    
+    const inputElement = useRef();
     const choose_tab=()=>
     {
         setselected_tab(!selected_tab);
@@ -32,10 +33,32 @@ const Bg=()=>{
         setshow_eula_popup(false)
 
     }
+    const openFileInput=()=>{
+        inputElement.current.click();
+    }
+
+    const uploaded_file=(e)=>{
+        let file_info = e.target.files[0];
+        let url = `http://localhost:5000/upload_file`;
+        let formData = new FormData();
+        formData.append('name','ABC');
+        formData.append('age',20);
+        
+        const config={headers:{'content-type':'multipart/form-data'}};
+
+        axios.post(url,formData,config).then(response=>{
+            console.log(response);
+
+        }).catch(err=>{
+            console.log(err);
+        });
+    }
+
     return<> <div className='bg_general'>
         <img src={close_x} className='close_img' alt="close_img"></img>
         <div className='title'> העלאת תמונה כדי להסיר את הרקע</div>
-        <button className='upload_btn'>העלאת תמונה</button>
+        <button onClick={openFileInput} className='upload_btn'>העלאת תמונה</button>
+        <input type="file" ref={inputElement} className='input_file' onChange={uploaded_file}/>
         <div className='upload_text'>פורמטים נתמכים png,jpeg</div>
         <div className='middle_div'>
             <div className='right_div'>
