@@ -13,6 +13,10 @@ const Bg=()=>{
     const  [selected_tab,setselected_tab] = useState(true);
     const  [show_download_popup,setdownload_popup] = useState(false);
     const  [show_eula_popup,setshow_eula_popup] = useState(false);
+    const  [show_error_msg,setshow_error_msg] = useState(false);
+    const  [show_error_msg_size,setshow_error_msg_size] = useState(false);
+    const  [image_name,setimage_name]= useState("");
+
     const inputElement = useRef();
     const choose_tab=()=>
     {
@@ -39,19 +43,32 @@ const Bg=()=>{
 
     const uploaded_file=(e)=>{
         let file_info = e.target.files[0];
-        let url = `http://localhost:5000/upload_file`;
-        let formData = new FormData();
-        formData.append('name','ABC');
-        formData.append('age',20);
+        if(file_info.size<=1000000000){
+
         
-        const config={headers:{'content-type':'multipart/form-data'}};
+            if(file_info.type === 'image/png' || file_info.type === 'image/jpeg'|| file_info.type === 'image/jpg')
+            {
+                
+                let url = `http://localhost:5000/upload_file`;
+                let formData = new FormData();
+                formData.append('file',file_info);
+                const config={headers:{'content-type':'multipart/form-data'}};
+                axios.post(url,formData,config).then(response=>{
 
-        axios.post(url,formData,config).then(response=>{
-            console.log(response);
+                    setimage_name(response.data);
 
-        }).catch(err=>{
-            console.log(err);
-        });
+            }).catch(err=>{
+                console.log(err);
+            });
+            }
+            else{
+                setshow_error_msg(true);
+            }
+        }
+        else{
+            setshow_error_msg_size(true);
+        }
+        
     }
 
     return<> <div className='bg_general'>
@@ -60,6 +77,8 @@ const Bg=()=>{
         <button onClick={openFileInput} className='upload_btn'>העלאת תמונה</button>
         <input type="file" ref={inputElement} className='input_file' onChange={uploaded_file}/>
         <div className='upload_text'>פורמטים נתמכים png,jpeg</div>
+        {show_error_msg ? <div className='error_msg'>הקובץ לא נתמך</div>:<></>}
+        {show_error_msg_size ? <div className='error_msg'>הקובץ גדול מדי </div>:<></>}
         <div className='middle_div'>
             <div className='right_div'>
                 <div className='right_div_inner'>
@@ -73,7 +92,7 @@ const Bg=()=>{
                     <div className={'tab '+(!selected_tab? 'selected_tab':'')} onClick={choose_tab}>מקורי</div>
                 </div>
                 <div className='left_div_inner'>
-                    {selected_tab?<NoBg title="no_bg"></NoBg>:<NoBg title="original"></NoBg>}
+                    {selected_tab?<NoBg img_name={image_name} title="no_bg"></NoBg>:<NoBg title="original"></NoBg>}
                     
                 </div>
                 <div className='left_div_footer'>

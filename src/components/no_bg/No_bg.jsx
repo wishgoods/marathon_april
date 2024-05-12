@@ -1,11 +1,10 @@
 
 import './No_bg.css';
-import upload_img from '../../assets/img.png'
 import warning from '../../assets/warning.png'
 import { useRef } from "react";
 
 function No_bg(props) {
-
+console.log(props.img_name);
     const inputElement = useRef();
 
     function choose_color_func() {
@@ -25,7 +24,7 @@ function No_bg(props) {
                     </>
                 : <></>}
 
-                <img className="uploaded_img" src={upload_img} alt="uploaded_img" />
+                <img className="uploaded_img" src={'localhost:5000/'+props.img_name} alt="uploaded_img" />
 
         </div>
 
