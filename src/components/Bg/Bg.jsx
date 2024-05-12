@@ -16,6 +16,7 @@ const Bg=()=>{
     const  [show_error_msg,setshow_error_msg] = useState(false);
     const  [show_error_msg_size,setshow_error_msg_size] = useState(false);
     const  [image_name,setimage_name]= useState("");
+    const  [bg_color,setbg_color]= useState("");
 
     const inputElement = useRef();
     const choose_tab=()=>
@@ -41,6 +42,9 @@ const Bg=()=>{
         inputElement.current.click();
     }
 
+    function save_color_func(color){
+        setbg_color(color);
+    }
     const uploaded_file=(e)=>{
         let file_info = e.target.files[0];
         if(file_info.size<=1000000000){
@@ -52,6 +56,8 @@ const Bg=()=>{
                 let url = `http://localhost:5000/upload_file`;
                 let formData = new FormData();
                 formData.append('file',file_info);
+                formData.append('color',bg_color);
+
                 const config={headers:{'content-type':'multipart/form-data'}};
                 axios.post(url,formData,config).then(response=>{
 
@@ -92,7 +98,10 @@ const Bg=()=>{
                     <div className={'tab '+(!selected_tab? 'selected_tab':'')} onClick={choose_tab}>מקורי</div>
                 </div>
                 <div className='left_div_inner'>
-                    {selected_tab?<NoBg img_name={image_name} title="no_bg"></NoBg>:<NoBg title="original"></NoBg>}
+                    {selected_tab?
+                    <NoBg save_color_func={save_color_func} img_name={image_name} title="no_bg"></NoBg>
+                    :
+                    <NoBg img_name={image_name} title="original"></NoBg>}
                     
                 </div>
                 <div className='left_div_footer'>
@@ -110,7 +119,7 @@ const Bg=()=>{
     show_download_popup
     ?<>
         <div className='layout'></div>
-        <DownloadPopup close_popup_func={close_download_popup_func}></DownloadPopup>
+        <DownloadPopup img_name ={image_name} close_popup_func={close_download_popup_func}></DownloadPopup>
     </>
     :<></>
     }

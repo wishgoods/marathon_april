@@ -41,3 +41,12 @@
     top: 19px;
     left: 15px;
 }
+.span_color{
+    width:25px;
+    height: 30px;
+    position: absolute;
+    top:0px;
+    right: 0px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}

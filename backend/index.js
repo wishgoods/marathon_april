@@ -11,15 +11,18 @@ app.use('/no_bg_img',express.static('no_bg_img'));
 app.use('/uploaded_image',express.static('uploaded_image'));
 
 app.post('/upload_file',(req,res)=>{
-    let fileName = req.files.file.name;
+    let d = new Date();
+    let time = d.getTime();
+    let color = req.body.color;
+    let fileName =time + '_' + req.files.file.name;
     let file_path = __dirname+'/uploaded_image/'+fileName;
-    req.files.file.mv(file_path,err=>{
+    req.files.file.mv(file_path,async err=>{
         if(err){
             
             console.log(err)
         }else{
             console.log('uploded!');
-            send_to_api(file_path,fileName );
+            await send_to_api(file_path,fileName ,color);
             res.send(fileName);
         }
     })
