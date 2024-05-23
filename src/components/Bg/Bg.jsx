@@ -3,7 +3,7 @@ import close_x from '../../assets/close.png'
 import logo from '../../assets/logo.png'
 import banner from '../../assets/banner.png'
 import DownloadImg from '../download_img/Download_img'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import NoBg from '../no_bg/No_bg'
 import DownloadPopup from '../download_popup/Download_popup'
 import Eula from '../eula/Eula'
@@ -17,8 +17,14 @@ const Bg=()=>{
     const  [show_error_msg_size,setshow_error_msg_size] = useState(false);
     const  [image_name,setimage_name]= useState("");
     const  [bg_color,setbg_color]= useState("");
+    const  [show_loader,setshow_loader]= useState(false);
 
     const inputElement = useRef();
+
+    useEffect(()=>{
+        setshow_loader(false);
+
+    },[image_name])
     const choose_tab=()=>
     {
         setselected_tab(!selected_tab);
@@ -46,6 +52,7 @@ const Bg=()=>{
         setbg_color(color);
     }
     const uploaded_file=(e)=>{
+        setshow_loader(true);
         let file_info = e.target.files[0];
         if(file_info.size<=1000000000){
 
@@ -131,6 +138,12 @@ const Bg=()=>{
     </>
     :<></>
     }
+    {show_loader?
+    <div className='loader'>
+        <div className='loader_in'>
+            39%
+        </div>
+    </div>:<></>}
     </>
 }
 
